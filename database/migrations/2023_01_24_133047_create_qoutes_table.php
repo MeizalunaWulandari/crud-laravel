@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateQouteTable extends Migration
+class CreateQoutesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateQouteTable extends Migration
      */
     public function up()
     {
-        Schema::create('qoute', function (Blueprint $table) {
+        Schema::create('qoutes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->text('content');
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateQouteTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('qoute');
+        Schema::dropIfExists('qoutes');
     }
 }

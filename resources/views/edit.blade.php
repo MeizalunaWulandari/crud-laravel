@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create</title>
+    <title>Edit | {{ $qoute->content }}</title>
 </head>
 <body>
 <center>
@@ -10,15 +10,16 @@
         <h1>{{ session('success') }}</h1>
     @endif
 
-<form action="/qoutes" method="POST">
+<form action="/qoutes/{{ $qoute->id }}" method="POST">
     @csrf
+    @method('PUT')
     <label for="content">Content</label>
-    <input type="text" name="content" value="{{ old('content') }}" autofocus>
+    <input type="text" name="content" value="{{ $qoute->content }}" autofocus>
     @error('content')
         <p>{{ $message }}</p>
     @enderror
     <button type="submit">Submit</button>
-
+<a href="/qoutes">Cancel</a>
 </form>
 </center>
 </body>
