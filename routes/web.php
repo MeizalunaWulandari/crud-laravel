@@ -17,7 +17,15 @@ use App\Http\Controllers\RegisterController;
 */
 
 // Home
-Route::resource('/qoutes', QoutesController::class);
+Route::get('/qoutes', [QoutesController::class, 'index']);
+
+Route::resource('/qoutes', QoutesController::class)->middleware(['auth'])->except('index');
+
+// Route::middleware('auth')->group(function (){
+// 	Route::get('qoutes/{qoutes}/edit', [QoutesController::class, 'edit']);
+// });
+
+// Route::resource('/qoutes', QoutesController::class)->except('index')->middleware('auth');
 
 // Authentication
 Route::get('auth/register', [RegisterController::class, 'index']);

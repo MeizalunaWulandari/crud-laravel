@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Qoute;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -10,7 +11,7 @@ class UserController extends Controller
     public function index()
     {
         $data = [
-            'user' => User::where('id', auth()->user()->id)->get(),
+            'qoutes' => Qoute::where('user_id', auth()->user()->id)->get(),
         ];
         return view('user.index', $data);
     }

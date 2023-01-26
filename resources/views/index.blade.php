@@ -13,13 +13,15 @@
     @foreach ($qoutes as $qoute)
     <div>
         <p>{{ $qoute->content }}</p>
-        <a style="color: green;" href="/qoutes/{{ $qoute->id }}/edit">Edit</a> | 
-        <form action="/qoutes/{{ $qoute->id }}" method="POST">
-            @csrf
-            @method('DELETE');
-            <button style="color: red;" type="submit">Edit</button>
-        </form>
         <hr>
+        @auth
+            <a style="color: green;" href="/qoutes/{{ $qoute->id }}/edit">Edit</a>
+            <form action="/auth/logout" method="POST">
+                @csrf
+                @method("DELETE")
+                <button type="submit">Logout</button>
+            </form>
+        @endauth
     </div>
         
     @endforeach
