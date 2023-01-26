@@ -19,7 +19,9 @@ use App\Http\Controllers\RegisterController;
 // Home
 Route::get('/qoutes', [QoutesController::class, 'index']);
 
-Route::resource('/qoutes', QoutesController::class)->middleware(['auth'])->except('index');
+// NOTE : multiple middleware harus array ['middleware_1', 'middleware_2']
+
+Route::resource('/qoutes', QoutesController::class)->middleware(['auth','IsAuthor'])->except('index');
 
 // Route::middleware('auth')->group(function (){
 // 	Route::get('qoutes/{qoutes}/edit', [QoutesController::class, 'edit']);

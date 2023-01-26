@@ -17,12 +17,14 @@ class IsAuthor
      */
     public function handle(Request $request, Closure $next)
     {
-        $author = auth()->user();
-        $qoute = Qoute::findOrFail($author->id);
 
-        if ($qoute->user_id == $author->id) {
-            // die();
-            return abort(403);
+        $author = auth()->user();
+        $id = intval(request()->segment(2));
+        $qoute = Qoute::findOrFail($id);
+        
+
+        if ($qoute->user_id != $author->id) {
+            return 'Qoute not found';
         }
         return $next($request);
 
