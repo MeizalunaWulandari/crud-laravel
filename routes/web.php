@@ -18,10 +18,12 @@ use App\Http\Controllers\RegisterController;
 
 // Home
 Route::get('/qoutes', [QoutesController::class, 'index']);
+Route::get('/qoutes/create', [QoutesController::class, 'create'])->middleware('auth');
+Route::post('/qoutes', [QoutesController::class, 'store'])->middleware('auth');
 
 // NOTE : multiple middleware harus array ['middleware_1', 'middleware_2']
 
-Route::resource('/qoutes', QoutesController::class)->middleware(['auth','IsAuthor'])->except('index');
+Route::resource('/qoutes', QoutesController::class)->middleware(['auth','IsAuthor'])->except(['index','create','store']);
 
 // Route::middleware('auth')->group(function (){
 // 	Route::get('qoutes/{qoutes}/edit', [QoutesController::class, 'edit']);

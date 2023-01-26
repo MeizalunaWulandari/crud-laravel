@@ -33,7 +33,7 @@ class QoutesController extends Controller
         $validatedData = $request->validate([
             'content' => ['required'],
         ]);
-        $validatedData['user_id'] = 1;
+        $validatedData['user_id'] = auth()->user()->id;
 
         Qoute::create($validatedData);
 

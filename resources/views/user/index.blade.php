@@ -8,6 +8,7 @@
     <center>
         <nav>
             <a href="/qoutes">Home</a>
+            <a href="/qoutes/create">Add </a>
             <form action="/auth/logout" method="POST">
                 @csrf
                 @method('DELETE')
