@@ -60,6 +60,9 @@ class UserController extends Controller
                     'password' => ['current_password']
             ]);
 
+        // Petik 2 " " {$user->id} Primary key
+        // 'username' => ['required',"unique:users,username,{$user->id}"],
+
         $user->update($validatedData);
 
 
