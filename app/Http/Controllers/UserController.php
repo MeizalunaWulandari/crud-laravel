@@ -33,34 +33,38 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit($username)
+    public function edit($username, Request $request)
     {
         $data = [
             'user' =>  User::where('username', $username)->first()
         ];
         
+        if ($request->segment(4) === "password") {
+            return view('user.password', $data);
+        }
+
         return view('user.edit', $data);
+
+        
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request)
     {
-        $user = User::where('username', $request->username)->first();
-        
-        $validatedData = $request->validate([
-                    'name' => ['required'],
-                    'username' => ['required',"unique:users,username,{$user->id}"],
-                    'email' => ['required',"unique:users,email,{$user->id}"],
-                    'password' => ['current_password']
-            ]);
 
-        // Petik 2 " " {$user->id} Primary key
+        $user = User::where('username', $request->segment(2))->first();
+        
+        $rules = [
+              'name' => ['required'],
+              'username' => ['required',"unique:users,username,{$user->id}"],
+              'email' => ['required',"unique:users,email,{$user->id}"],
+              'password' => ['required','current_password']
+            ];
+        if ($validatedData = $request->validate($rules)) {
+            $validatedData['password'] = Hash::make($request->password);    
+        }
+        
+
+        // Harus Petik 2 " " {$user->id} Primary key
         // 'username' => ['required',"unique:users,username,{$user->id}"],
 
         $user->update($validatedData);
@@ -69,14 +73,20 @@ class UserController extends Controller
         return redirect('/user/'.$user->username.'/edit')->with('success', 'qoutes success updated');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(User $user)
+
+    public function changePassword(Request $request)
     {
-        //
+        $user = User::where('username', $request->segment(2))->first();
+
+        // dd($user);
+        $validatedData = $request->validate([
+                    'password' => ['required', 'current_password'],
+                    'newPassword' => ['required', 'confirmed', 'min:8']
+        ]);
+
+        $user->update([
+            'password' => Hash::make($request->newPassword)
+        ]);
+        return redirect('/user/'.$user->username.'/edit/password')->with('success', 'password success updated');
     }
 }

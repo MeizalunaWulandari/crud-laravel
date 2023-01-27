@@ -39,7 +39,7 @@
 
     <button type="submit">Submit</button>
 
-    <a href="/user/{{ $user->username }}">Change password</a> | <a href="/user/{{ $user->username }}">Cancel</a>
+    <a href="/user/{{ $user->username }}/edit/password">Change password</a> | <a href="/user/{{ $user->username }}">Cancel</a>
 </form>
 </pre>
 </center>

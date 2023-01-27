@@ -17,10 +17,10 @@ class ItsMe
      */
     public function handle(Request $request, Closure $next)
     {
-        $currentUser = auth()->user()->username;
-        $user = User::where('username', $request->username)->first();
+        $currentUser = auth()->user()->id;
+        $user = User::where('username', $request->segment(2))->first();
 
-        if ($user->username !== $currentUser) {
+        if ($user->id !== $currentUser) {
             return abort(403);
         }
         
