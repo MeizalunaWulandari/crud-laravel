@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Qoute;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+
 
 class UserController extends Controller
 {
@@ -16,32 +18,13 @@ class UserController extends Controller
         return view('user.index', $data);
     }
 
-    
-    public function create()
+    public function show($username)
     {
-        //
-    }
+        $data = [
+            'user' =>  User::where('username', $username)->first()
+        ];
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
-    {
-        //
+        return view('user.profile', $data);
     }
 
     /**
@@ -50,9 +33,13 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($username)
     {
-        //
+        $data = [
+            'user' =>  User::where('username', $username)->first()
+        ];
+        
+        return view('user.edit', $data);
     }
 
     /**
@@ -62,9 +49,21 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
-        //
+        $user = User::where('username', $request->username)->first();
+        
+        $validatedData = $request->validate([
+                    'name' => ['required'],
+                    'username' => ['required',"unique:users,username,{$user->id}"],
+                    'email' => ['required',"unique:users,email,{$user->id}"],
+                    'password' => ['current_password']
+            ]);
+
+        $user->update($validatedData);
+
+
+        return redirect('/user/'.$user->username.'/edit')->with('success', 'qoutes success updated');
     }
 
     /**

@@ -41,3 +41,7 @@ Route::delete('auth/logout', [LoginController::class, 'logout'])->middleware('au
 
 // User
 Route::get('/user', [UserController::class, 'index'])->middleware('auth');
+Route::get('/user/{username}', [UserController::class, 'show'])->middleware('auth');
+Route::get('/user/{username}/edit', [UserController::class, 'edit'])->middleware(['auth', 'ItsMe']);
+Route::put('/user/{username}', [UserController::class, 'update'])->middleware(['auth', 'ItsMe']);
+

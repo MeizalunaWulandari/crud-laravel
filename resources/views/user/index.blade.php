@@ -9,6 +9,7 @@
         <nav>
             <a href="/qoutes">Home</a>
             <a href="/qoutes/create">Add </a>
+            <a href="/user/{{ auth()->user()->username }}">Profile</a>
             <form action="/auth/logout" method="POST">
                 @csrf
                 @method('DELETE')
