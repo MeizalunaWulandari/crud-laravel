@@ -18,10 +18,12 @@ class UserController extends Controller
         return view('user.index', $data);
     }
 
-    public function show($username)
+    public function show(User $user)
+    // Route Model binding ($user harus sama dengan wildcard di route {user})
+    // Dan di disesuaikan dengan RouteNameKey di models
     {
         $data = [
-            'user' =>  User::where('username', $username)->first()
+            'user' =>  $user,
         ];
 
         return view('user.profile', $data);

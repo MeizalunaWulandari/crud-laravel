@@ -41,7 +41,13 @@ Route::delete('auth/logout', [LoginController::class, 'logout'])->middleware('au
 
 // User
 Route::get('/user', [UserController::class, 'index'])->middleware('auth');
-Route::get('/user/{username}', [UserController::class, 'show'])->middleware('auth');
+
+// {user} agar dapat dikenali oleh controller sebagiai route model binding
+Route::get('/user/{user}', [UserController::class, 'show'])->middleware('auth');
+
+// Alternatif lain jika tidak ingin merubah identifier di model
+// Route::get('/user/{user:username}', [UserController::class, 'show'])->middleware('auth');
+
 Route::get('/user/{username}/edit', [UserController::class, 'edit'])->middleware(['auth', 'ItsMe']);
 Route::get('/user/{username}/edit/password', [UserController::class, 'edit'])->middleware(['auth', 'ItsMe']);
 Route::put('/user/{username}/edit/password', [UserController::class, 'changePassword'])->middleware(['auth', 'ItsMe']);

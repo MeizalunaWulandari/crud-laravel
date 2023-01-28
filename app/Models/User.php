@@ -42,8 +42,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    // public function getRouteKeyName()
-    // {
-    //     return 'username';
-    // }
+    
+
+    public function qoutes()
+    {
+        return $this->hasMany(Qoute::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'username';
+        // Untuk Meurubah indintifair dari Id ke Username 
+        // Sebagia pendukung Route Model binding
+    }
+
 }
